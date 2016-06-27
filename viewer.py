@@ -1,90 +1,46 @@
-import requests
-import json
-
-#this code is mostly ripped off the zendesk site.
-
-
-##### Classes ####
-class Ticket:
-    def __init__(self, dict):
-        for key,value in dict.items():
-            if isinstance(value, (list, tuple)): #if the property's a list (or tuple), assign it a list here too
-                setattr(self, key, [x for x in value])
-            else:
-                setattr(self, key,  value)
-
-#### Functions ####
-
-def get_ticket_json(url, auth=(user,pwd)):
-    #make a HTTP request
-    response = requests.get(url, auth=(user, pwd))
-    #check that the request is valid
-    if response.status_code != 200:
-        return False
-    else:
-        return response
-
-def decode_ticket_json(ticket_json):
-    ticket_data = ticket_json.json()
-    tickets = ticket_data['tickets'] #select list of tickets from the dictionary
-    return tickets
-
-
-#### Main loop ####
-
-#Get the url, username and password
-
-url = "https://sgoedecke.zendesk.com/api/v2/tickets.json"
-user = "sean.goedecke@gmail.com"
-pwd = "Porcup1n"
-
-#Get the list of tickets
-
-response = get_ticket_json(url,auth=(user,pwd))
-
-#check if the response is throwing an error
-if response == False:
-    print "Error!"
-else:
-    tickets = decode_ticket_json(response)
-
-#Display list of tickets
-
-for ticket in ticket_list[:24]: #look at first 25 tickets
-    new_ticket = Ticket(ticket)
-    print new_ticket.id
-    print new_ticket.subject
-    print new_ticket.created_at
-    print new_ticket.updated_at
-#    new_ticket = Ticket(id=ticket['id'],subject=ticket['subject'])
-#    print new_ticket
-#    print new_ticket.id
-#    print new_ticket.subject
+from ticketdownloader import *
+from CLIdisplay import *
 
 
 '''
-try:
-    print str(ticket_list[0]['id'])
-except:
-    print "No id!"
+url = "https://sgoedecke.zendesk.com/api/v2/tickets.json"
+user = "sean.goedecke@gmail.com"
+pwd = "Porcup1n"
+'''
 
-try:
-    print str(ticket_list[0]['url'])
-except:
-    print "No url!"
+#Login the user, download the tickets, and build a Ticket object for each ticket
 
-try:
-    print str(ticket_list[0]['type'])
-except:
-    print "No type!"
+has_tickets = False
+while has_tickets == False:
+    #Get the url, username and password
+    auth_info = login_menu()
+    url = auth_info[0]
+    user = auth_info[1]
+    pwd = auth_info[2]
 
-try:
-    print str(ticket_list[0]['subject'])
-except:
-    print "No subject!"
+    #Get the list of tickets
+    print "Trying to download tickets from " + url + " for user " + user
+    response = get_ticket_json(url,user,pwd)
+    #check if the response is throwing an error
+    if response == False: #TODO extend
+        print "Could not download tickets."
+        continue
+    else:
+        tickets_dict = decode_ticket_json(response)
+        has_tickets = True
+        ticket_list = make_ticket_objects(tickets_dict)
 
-try:
-    print str(ticket_list[0]['description'])
-except:
-    print "No description!"
-    '''
+#Let the user view the downloaded tickets
+
+viewing = True
+while viewing == True:
+    #menu
+    command = main_menu()
+
+    if command == "1":
+        ticket_list_menu(ticket_list, 0) #start viewing from first ticket
+    elif command == "2":
+        individual_ticket_menu(ticket_list)
+    else:
+        print "Please enter a valid input."
+        continue
