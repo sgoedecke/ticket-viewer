@@ -8,7 +8,11 @@ Ticket Viewer accesses tickets from the Zendesk API and displays them in a reada
 
 **Installing Python 2.7**
 
+<add link>
+
 **Installing Python `requests` library**
+
+<add link>
 
 ## Usage
 
