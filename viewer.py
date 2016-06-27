@@ -1,5 +1,5 @@
-from ticketdownloader import *
-from CLIdisplay import *
+from tickethandler import *
+from clidisplay import *
 
 
 '''

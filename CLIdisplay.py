@@ -3,18 +3,35 @@
 INPUT_PROMPT = "~: "
 TICKETS_PER_PAGE = 25
 
-def main_menu():
-    print "Select view options:"
-    print "* Press 1 to view all tickets"
-    print "* Press 2 to view a particular ticket"
-    command = raw_input(INPUT_PROMPT)
-    return command
+# authentication functions for login menu
+
+def is_valid_url_name(url):
+    #test if string is a valid Zendesk username
+    return True
+
+def is_valid_email(email):
+    #test if string is a valid email
+    return True
+
+# display functions
 
 def display_ticket_list(ticket_list, start, end):
     #display list of tickets
     print "Viewing tickets from " + str(start) + " to " + str(end)
     for ticket in ticket_list[start:end]: #look at first 25 tickets
         print str(ticket.id) + " with subject: " + str(ticket.subject)
+
+def display_individual_ticket(ticket):
+    print str(ticket.id) + " with subject " + str(ticket.subject)
+
+# menu functions
+
+def main_menu():
+    print "Select view options:"
+    print "* Press 1 to view all tickets"
+    print "* Press 2 to view a particular ticket"
+    command = raw_input(INPUT_PROMPT)
+    return command
 
 def ticket_list_menu(ticket_list, viewing_from):
     viewing_from = viewing_from
@@ -35,7 +52,6 @@ def ticket_list_menu(ticket_list, viewing_from):
             tickets_right = False
         print "* Press 3 to return to main menu"
         command = raw_input(INPUT_PROMPT)
-
 
         #handle user input
         if command == "1" and tickets_left:
@@ -58,17 +74,8 @@ def individual_ticket_menu(ticket_list):
     command = raw_input(INPUT_PROMPT)
     for ticket in ticket_list:
         if str(ticket.id) == command:
-            print str(ticket.id) + " with subject " + str(ticket.subject)
+            display_individual_ticket(ticket)
             #what if invalid ticket?
-
-#authentication functions for login menu
-
-def is_valid_url_name(url):
-    #test if string is a valid Zendesk username
-    return True
-
-def is_valid_email(email):
-    return True
 
 def login_menu():
     print "Welcome to the ticket viewer."

@@ -29,11 +29,11 @@ def get_ticket_json(url, user,pwd):
 def decode_ticket_json(ticket_json):
     #strips a list of dictionaries from the json-string so I can feed them into Ticket objects
     ticket_data = ticket_json.json()
-    tickets = ticket_data['tickets'] #select list of tickets from the dictionary
+    tickets = ticket_data['tickets'] #select dictionary of tickets
     return tickets
 
 def make_ticket_objects(ticket_dict):
-    #make Ticket objects
+    #make a list of Ticket objects from a list of dictionaries
     ticket_list = []
     for ticket in ticket_dict:
         new_ticket = Ticket(ticket)

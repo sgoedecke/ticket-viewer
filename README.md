@@ -27,3 +27,7 @@ When finished, exist from the main menu. Alternatively, `Ctrl+C` will exit from 
 ## Testing
 
 To test Ticket Viewer, run `python tests.py` from the command line.
+
+## Structure
+
+Ticket Viewer has three moving parts...
