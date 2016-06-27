@@ -1,4 +1,5 @@
 #This module handles the command-line UI
+from tabulate import tabulate
 
 INPUT_PROMPT = "~: "
 TICKETS_PER_PAGE = 25
@@ -18,8 +19,11 @@ def is_valid_email(email):
 def display_ticket_list(ticket_list, start, end):
     #display list of tickets
     print "Viewing tickets from " + str(start) + " to " + str(end)
+    tabulate_list = []
     for ticket in ticket_list[start:end]: #look at first 25 tickets
-        print str(ticket.id) + " with subject: " + str(ticket.subject)
+        tabulate_list.append([ticket.id,ticket.subject,ticket.submitter_id])        
+    print tabulate(tabulate_list, headers=["ID","Subject","Submitter ID"],tablefmt="fancy_grid")
+#        print str(ticket.id) + " with subject: " + str(ticket.subject)
 
 def display_individual_ticket(ticket):
     print str(ticket.id) + " with subject " + str(ticket.subject)
