@@ -40,6 +40,11 @@ class CLIDisplayTestCase(unittest.TestCase):
         is_valid = is_valid_email(email)
         self.assertFalse(is_valid)
 
+    def test_reformat_json_date(self):
+        jsondate = '2012-05-29T18:29:10Z'
+        formatted_date = reformat_json_date(jsondate)
+        self.assertTrue(formatted_date == '2012-05-29 18:29:10')
+
 
 if __name__ == '__main__':
     unittest.main() #run tests

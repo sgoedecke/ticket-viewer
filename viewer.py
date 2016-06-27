@@ -19,7 +19,7 @@ while has_tickets == False:
     pwd = auth_info[2]
 
     #Get the list of tickets
-    print "Trying to download tickets from " + url + " for user " + user
+    print "Trying to download tickets from '" + url + "' for user " + user + "..."
     response = get_ticket_json(url,user,pwd)
     #check if the response is throwing an error
     if response == False: #TODO extend
@@ -29,6 +29,7 @@ while has_tickets == False:
         tickets_dict = decode_ticket_json(response)
         has_tickets = True
         ticket_list = make_ticket_objects(tickets_dict)
+        print "Downloaded " + str(len(ticket_list)) + " tickets."
 
 #Let the user view the downloaded tickets
 

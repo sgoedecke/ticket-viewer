@@ -1,5 +1,6 @@
 #This module handles the command-line UI
 from tabulate import tabulate
+import datetime
 
 INPUT_PROMPT = "~: "
 TICKETS_PER_PAGE = 25
@@ -16,17 +17,26 @@ def is_valid_email(email):
 
 # display functions
 
+def reformat_json_date(date):
+    formatted_date = datetime.datetime.strptime(date,'%Y-%m-%dT%H:%M:%SZ')
+    return formatted_date
+
 def display_ticket_list(ticket_list, start, end):
     #display list of tickets
     print "Viewing tickets from " + str(start) + " to " + str(end)
     tabulate_list = []
     for ticket in ticket_list[start:end]: #look at first 25 tickets
-        tabulate_list.append([ticket.id,ticket.subject,ticket.submitter_id])        
+        tabulate_list.append([ticket.id,ticket.subject,ticket.submitter_id])
     print tabulate(tabulate_list, headers=["ID","Subject","Submitter ID"],tablefmt="fancy_grid")
 #        print str(ticket.id) + " with subject: " + str(ticket.subject)
 
 def display_individual_ticket(ticket):
-    print str(ticket.id) + " with subject " + str(ticket.subject)
+    formatted_date = reformat_json_date(ticket.created_at)
+    tabulate_list = [["Subject:",ticket.subject],["Submitter ID:",ticket.submitter_id],["Priority:",ticket.priority],["Status:",ticket.status],["Created at:",formatted_date]]
+#    headers = ["ID","Subject","Submitter ID","Description","Priority","Status","Date created"]
+    print tabulate(tabulate_list,tablefmt="fancy_grid")
+    print "Description: " + ticket.description
+#    print str(ticket.id) + " with subject " + str(ticket.subject)
 
 # menu functions
 
