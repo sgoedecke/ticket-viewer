@@ -20,21 +20,7 @@ class HandlerTestCase(unittest.TestCase):
 
 class CLIDisplayTestCase(unittest.TestCase):
     #tests for the CLI Display module
-    def test_has_no_whitespace_recognising_valid_input(self):
-        url_name = "nowhitespace"
-        self.assertTrue(has_no_whitespace(url_name))
 
-    def test_has_no_whitespace_recognising_invalid_input(self):
-        url_name = "has some whitespace"
-        self.assertFalse(has_no_whitespace(url_name))
-
-    def test_is_valid_email_recognising_valid_email(self):
-        email = "valid@email.com"
-        self.assertTrue(is_valid_email(email))
-
-    def test_is_valid_email_recognising_invalid_email(self):
-        email = "invalidemail.com"
-        self.assertFalse(is_valid_email(email))
 
     def test_reformat_json_date(self):
         raw_date = '2012-05-29T18:29:10Z'

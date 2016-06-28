@@ -1,6 +1,6 @@
 # ticket-viewer
 
-Ticket Viewer accesses tickets from the Zendesk API and displays them in a readable format.
+Ticket Viewer accesses tickets from my Zendesk account and displays them in a readable format.
 
 ## Installation
 
@@ -17,8 +17,6 @@ Ticket Viewer accesses tickets from the Zendesk API and displays them in a reada
 ## Usage
 
 To use Ticket Viewer, run `python viewer.py` from the command line.
-
-When prompted, enter your Zendesk url, email and password.
 
 You can page through your total tickets, or view details on an individual ticket.
 
