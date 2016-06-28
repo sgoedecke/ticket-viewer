@@ -3,7 +3,7 @@
 from tabulate import tabulate
 import datetime
 
-INPUT_PROMPT = "~: "
+INPUT_PROMPT = "> "
 TICKETS_PER_PAGE = 25
 
 # display functions
@@ -15,11 +15,12 @@ def reformat_json_date(date):
 
 def display_ticket_list(ticket_list, start, end):
     # display list of tickets
-    print "Viewing tickets from " + str(start) + " to " + str(end)
+    print "Viewing tickets from " + str(start) + " to " + str(end) + ":"
     tabulate_list = []
     for ticket in ticket_list[start:end]: #look at first 25 tickets
         tabulate_list.append([ticket.id,ticket.subject,ticket.submitter_id])
     print tabulate(tabulate_list, headers=["ID","Subject","Submitter ID"],tablefmt="simple")
+    print "\n"
 
 def display_individual_ticket(ticket):
     formatted_date = reformat_json_date(ticket.created_at)
