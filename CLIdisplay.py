@@ -1,19 +1,23 @@
 #This module handles the command-line UI
 from tabulate import tabulate
 import datetime
+import re
 
 INPUT_PROMPT = "~: "
 TICKETS_PER_PAGE = 25
 
 # authentication functions for login menu
 
-def is_valid_url_name(url):
-    #test if string is a valid Zendesk username
+def has_no_whitespace(url):
+    #test if string has any whitespace
     return True
 
 def is_valid_email(email):
-    #test if string is a valid email
-    return True
+    #test if string looks like a valid email (i.e. has only one '@', with some stuff on either side, and ends with dot-something)
+    if re.match(r"[^@]+@[^@]+\.[^@]+",email) and has_no_whitespace(email):
+        return True
+    else:
+        return False
 
 # display functions
 
@@ -27,16 +31,19 @@ def display_ticket_list(ticket_list, start, end):
     tabulate_list = []
     for ticket in ticket_list[start:end]: #look at first 25 tickets
         tabulate_list.append([ticket.id,ticket.subject,ticket.submitter_id])
-    print tabulate(tabulate_list, headers=["ID","Subject","Submitter ID"],tablefmt="fancy_grid")
+    print tabulate(tabulate_list, headers=["ID","Subject","Submitter ID"],tablefmt="simple")
 #        print str(ticket.id) + " with subject: " + str(ticket.subject)
 
 def display_individual_ticket(ticket):
     formatted_date = reformat_json_date(ticket.created_at)
-    tabulate_list = [["Subject:",ticket.subject],["Submitter ID:",ticket.submitter_id],["Priority:",ticket.priority],["Status:",ticket.status],["Created at:",formatted_date]]
-#    headers = ["ID","Subject","Submitter ID","Description","Priority","Status","Date created"]
-    print tabulate(tabulate_list,tablefmt="fancy_grid")
-    print "Description: " + ticket.description
-#    print str(ticket.id) + " with subject " + str(ticket.subject)
+
+    print "Subject: " + str(ticket.subject) #using str() here returns "None" if the attribute is missing, rather than throwing an error
+    print "Submitter ID: " + str(ticket.submitter_id)
+    print "Priority: " + str(ticket.priority)
+    print "Status: " + str(ticket.status)
+    print "Created at: " + str(formatted_date)
+    print "Description: " + str(ticket.description)
+
 
 # menu functions
 
@@ -44,6 +51,7 @@ def main_menu():
     print "Select view options:"
     print "* Press 1 to view all tickets"
     print "* Press 2 to view a particular ticket"
+    print "* Press 3 to exit"
     command = raw_input(INPUT_PROMPT)
     return command
 
@@ -52,6 +60,7 @@ def ticket_list_menu(ticket_list, viewing_from):
 
     viewing_list = True
     while viewing_list == True:
+
         #display tickets
         display_ticket_list(ticket_list, viewing_from, viewing_from+TICKETS_PER_PAGE)
         if viewing_from > 0: #if there are tickets to the left of the viewing set
@@ -64,7 +73,8 @@ def ticket_list_menu(ticket_list, viewing_from):
             print "* Press 2 to view later tickets"
         else:
             tickets_right = False
-        print "* Press 3 to return to main menu"
+        print "* Press 3 to view a particular ticket"
+        print "* Press 4 to return to main menu"
         command = raw_input(INPUT_PROMPT)
 
         #handle user input
@@ -75,6 +85,9 @@ def ticket_list_menu(ticket_list, viewing_from):
             #go right
             viewing_from = viewing_from+TICKETS_PER_PAGE
         elif command == "3":
+            viewing_list = False
+            individual_ticket_menu(ticket_list)
+        elif command == "4":
             print "Returning to main menu..."
             viewing_list = False
             return
@@ -99,7 +112,7 @@ def login_menu():
     while has_url == False:
         print "Enter your Zendesk username (the one in your url):"
         url_name = raw_input(INPUT_PROMPT)
-        if is_valid_url_name(url_name):
+        if has_no_whitespace(url_name): #minimal check for valid username
             has_url = True
         else:
             print "Sorry, this is an invalid username."

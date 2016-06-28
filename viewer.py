@@ -23,13 +23,13 @@ while has_tickets == False:
     response = get_ticket_json(url,user,pwd)
     #check if the response is throwing an error
     if response == False: #TODO extend
-        print "Could not download tickets."
+        print "Could not authenticate user."
         continue
     else:
         tickets_dict = decode_ticket_json(response)
         has_tickets = True
         ticket_list = make_ticket_objects(tickets_dict)
-        print "Downloaded " + str(len(ticket_list)) + " tickets."
+        print "Downloaded " + str(len(ticket_list)) + " tickets. \n"
 
 #Let the user view the downloaded tickets
 
@@ -42,6 +42,9 @@ while viewing == True:
         ticket_list_menu(ticket_list, 0) #start viewing from first ticket
     elif command == "2":
         individual_ticket_menu(ticket_list)
+    elif command == "3":
+        print "Thank you for using the ticket viewer."
+        break
     else:
         print "Please enter a valid input."
         continue
