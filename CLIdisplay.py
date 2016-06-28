@@ -1,4 +1,5 @@
 #This module handles the command-line UI
+
 from tabulate import tabulate
 import datetime
 import re
@@ -6,14 +7,17 @@ import re
 INPUT_PROMPT = "~: "
 TICKETS_PER_PAGE = 25
 
-# authentication functions for login menu
+# input validation functions for login menu
 
-def has_no_whitespace(url):
-    #test if string has any whitespace
-    return True
+def has_no_whitespace(text):
+    #return True if string has no whitespace
+    if re.search(r"\s",text):
+        return False
+    else:
+        return True
 
 def is_valid_email(email):
-    #test if string looks like a valid email (i.e. has only one '@', with some stuff on either side, and ends with dot-something)
+    #return True if string looks like a valid email (i.e. has only one '@', with some stuff on either side, and ends with dot-something)
     if re.match(r"[^@]+@[^@]+\.[^@]+",email) and has_no_whitespace(email):
         return True
     else:
@@ -22,6 +26,7 @@ def is_valid_email(email):
 # display functions
 
 def reformat_json_date(date):
+    #makes the date data more readable
     formatted_date = datetime.datetime.strptime(date,'%Y-%m-%dT%H:%M:%SZ')
     return formatted_date
 
@@ -32,7 +37,6 @@ def display_ticket_list(ticket_list, start, end):
     for ticket in ticket_list[start:end]: #look at first 25 tickets
         tabulate_list.append([ticket.id,ticket.subject,ticket.submitter_id])
     print tabulate(tabulate_list, headers=["ID","Subject","Submitter ID"],tablefmt="simple")
-#        print str(ticket.id) + " with subject: " + str(ticket.subject)
 
 def display_individual_ticket(ticket):
     formatted_date = reformat_json_date(ticket.created_at)
@@ -102,7 +106,8 @@ def individual_ticket_menu(ticket_list):
     for ticket in ticket_list:
         if str(ticket.id) == command:
             display_individual_ticket(ticket)
-            #what if invalid ticket?
+            return
+    print "No such ticket."
 
 def login_menu():
     print "Welcome to the ticket viewer."
