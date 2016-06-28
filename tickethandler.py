@@ -1,7 +1,7 @@
 # This module handles downloading the tickets and
 
 import requests
-import json
+#import json
 
 
 ##### Classes ####
@@ -19,7 +19,11 @@ class Ticket:
 def get_ticket_json(url, user,pwd):
     #gets the json-format string from the Zendesk API
     #make a HTTP request
-    response = requests.get(url, auth=(user, pwd))
+    try:
+        response = requests.get(url, auth=(user, pwd))
+    except requests.exceptions.ConnectionError:
+        return False
+
     #check that the request is valid
     if response.status_code != 200:
         return False
