@@ -1,10 +1,16 @@
 import unittest
-import json # this is only needed for tests
 from tickethandler import *
 from clidisplay import *
 
-class HandlerTestCase(unittest.TestCase):
-    # tests for the Ticket handler module
+class DummyResponseObject:
+    # this mimicks a Response object from the Requests library, for easier testing
+    def __init__(self,dummy_json):
+        self.dummy_json = dummy_json
+    def json(self):
+        return self.dummy_json
+
+class TicketObjectTestCase(unittest.TestCase):
+    # tests for the Ticket object
     def test_Ticket_attribute_assignment(self):
         test_dict = {"key1":"value1", "key2":"value2", "key3":"value3"}
         ticket = Ticket(test_dict)
@@ -13,12 +19,18 @@ class HandlerTestCase(unittest.TestCase):
         test_dict = {"key1":["value1", "value2"], "key3":"value3"}
         ticket = Ticket(test_dict)
         self.assertTrue(ticket.key1==["value1","value2"])
+
+class TicketHandlerTestCase(unittest.TestCase):
+    # tests for the ticket handling methods
     def test_decode_ticket_json(self):
-        ticket_json = json.dumps({"title": "test_ticket", "submitter_id": "0", "id" : "0"})
+        ticket_json = DummyResponseObject({"tickets":{"title": "test_ticket", "submitter_id": "0", "id" : "0"}})
         ticket = decode_ticket_json(ticket_json)
-        # THIS IS RETURNING 'ERROR'
+        self.assertTrue(ticket == {"title":"test_ticket","submitter_id":"0","id":"0"})
     def test_make_ticket_objects(self):
-        return
+        ticket_dict = [{"title":"test_ticket","submitter_id":"0","id":"0"}]
+        ticket_list = make_ticket_objects(ticket_dict)
+        my_ticket = ticket_list[0]
+        self.assertTrue(my_ticket.title == "test_ticket")
 
 class CLIDisplayTestCase(unittest.TestCase):
     # tests for the CLI Display module

@@ -1,5 +1,4 @@
 # This module handles downloading the tickets and creating Ticket objects for them
-
 import requests
 
 class Ticket:
@@ -13,25 +12,33 @@ class Ticket:
 
 def get_ticket_json(url, user,pwd):
     # get the ticket information using the Zendesk API
+    response_list = []
     try:
-        response = requests.get(url, auth=(user, pwd)) # make a HTTP request
+        while url: # need to check for multiple pages of results
+            response = requests.get(url, auth=(user, pwd)) # make a HTTP request
+            if response.status_code != 200:
+                return False
+            else:
+                response_list.append(response)
+                response_dict = response.json()
+                url = response_dict['next_page']
+                if url:
+                    print "Getting next page of tickets..."
+
     except requests.exceptions.ConnectionError:
         return False
     # check that the request is valid
-    if response.status_code != 200:
-        return False
-    else:
-        return response
+    return response_list
+
 
 def decode_ticket_json(ticket_json):
     # strip a list of dictionaries from the json-string so I can feed them into Ticket objects
     ticket_data = ticket_json.json()
-    tickets = ticket_data['tickets'] # select dictionary of tickets
+    tickets = ticket_data['tickets'] # select the tickets
     return tickets
 
-def make_ticket_objects(ticket_dict):
+def make_ticket_objects(ticket_dict, ticket_list):
     # make a list of Ticket objects from a list of dictionaries
-    ticket_list = []
     for ticket in ticket_dict:
         new_ticket = Ticket(ticket)
         ticket_list.append(new_ticket)
