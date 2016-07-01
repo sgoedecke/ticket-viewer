@@ -1,5 +1,6 @@
 # This module handles downloading the tickets and creating Ticket objects for them
 import requests
+import time
 
 class Ticket:
     # ticket objects read their attributes straight from the .json
@@ -16,7 +17,13 @@ def get_ticket_json(url, user,pwd):
     try:
         while url: # need to check for multiple pages of results
             response = requests.get(url, auth=(user, pwd)) # make a HTTP request
-            if response.status_code != 200:
+            if response.status_code == 429: # handle hitting the rate limit
+                print "Rate limited. Waiting..."
+                response_dict = response.json()
+                time_to_wait = response_dict['retry-after']
+                time.sleep(int(time_to_wait))
+                continue
+            elif response.status_code != 200:
                 return False
             else:
                 response_list.append(response)

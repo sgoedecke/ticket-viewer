@@ -13,7 +13,7 @@ def run_ticket_viewer():
     has_tickets = False
     while has_tickets == False:
         # get the list of tickets
-        print "Downloading tickets from '" + url + "..."
+        print "Downloading tickets from '" + url + "'..."
         response_list = get_ticket_json(url,user,pwd)
 
         # check if the response is throwing an error

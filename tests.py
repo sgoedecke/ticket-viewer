@@ -28,7 +28,7 @@ class TicketHandlerTestCase(unittest.TestCase):
         self.assertTrue(ticket == {"title":"test_ticket","submitter_id":"0","id":"0"})
     def test_make_ticket_objects(self):
         ticket_dict = [{"title":"test_ticket","submitter_id":"0","id":"0"}]
-        ticket_list = make_ticket_objects(ticket_dict)
+        ticket_list = make_ticket_objects(ticket_dict, [])
         my_ticket = ticket_list[0]
         self.assertTrue(my_ticket.title == "test_ticket")
 
