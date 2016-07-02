@@ -3,6 +3,8 @@ import mock
 from tickethandler import *
 from clidisplay import *
 
+## Tests for the tickethandler.py module below:
+
 class DummyResponseObject:
     # this mimicks a Response object from the Requests library, for easier testing
     def __init__(self,dummy_json):
@@ -65,8 +67,10 @@ class TicketHandlerTestCase(unittest.TestCase):
         response_list = get_ticket_json("url","user","pwd")
         self.assertTrue(response_list == False)
 
+## Tests for the clidisplay.py module below:
+
 class CLIDisplayTestCase(unittest.TestCase):
-    # tests for the CLI Display module
+    # tests for the methods in clidisplay
     def test_reformat_json_date(self):
         raw_date = '2012-05-29T18:29:10Z'
         formatted_date = reformat_json_date(raw_date)
