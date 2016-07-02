@@ -31,7 +31,6 @@ def get_ticket_json(url, user,pwd):
                 url = response_dict['next_page']
                 if url:
                     print "Getting next page of tickets..."
-
     except requests.exceptions.ConnectionError:
         return False
     # check that the request is valid
