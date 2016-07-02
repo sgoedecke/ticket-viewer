@@ -16,13 +16,17 @@ def test_requests_get_one_page(url, auth):
     dummy_response.status_code = 200
     return dummy_response
 def test_requests_get_two_pages(url, auth):
-    # mimicks the requests.get without actually making a HTTP request
     if url != "next_page_url": # if this function's being run for the first time
         dummy_json = {"next_page": "next_page_url", "tickets":{"title": "test_ticket", "id" : "0"}}
     else:
         dummy_json = {"next_page": None, "tickets":{"title": "test_ticket", "id" : "0"}}
     dummy_response = DummyResponseObject(dummy_json)
     dummy_response.status_code = 200
+    return dummy_response
+def test_requests_get_bad_status_code(url, auth):
+    dummy_json = {"next_page": None, "tickets":{"title": "test_ticket", "id" : "0"}}
+    dummy_response = DummyResponseObject(dummy_json)
+    dummy_response.status_code = 100
     return dummy_response
 
 class TicketObjectTestCase(unittest.TestCase):
@@ -49,18 +53,17 @@ class TicketHandlerTestCase(unittest.TestCase):
         self.assertTrue(my_ticket.title == "test_ticket")
 
     @mock.patch('requests.get', side_effect=test_requests_get_one_page) # replace requests.get with my dummy function to avoid making a HTTP request
-    def test_get_ticket_json(self, test_get):
+    def test_get_ticket_json_one_page(self, test_get):
         response_list = get_ticket_json("url","user","pwd")
         self.assertTrue(len(response_list)==1)
-
-    @mock.patch('requests.get', side_effect=test_requests_get_two_pages) # replace requests.get with my dummy function to avoid making a HTTP request
-    def test_get_ticket_json(self, test_get):
+    @mock.patch('requests.get', side_effect=test_requests_get_two_pages)
+    def test_get_ticket_json_two_pages(self, test_get):
         response_list = get_ticket_json("url","user","pwd")
         self.assertTrue(len(response_list)==2)
-
-
-
-
+    @mock.patch('requests.get', side_effect=test_requests_get_bad_status_code)
+    def test_get_ticket_json_bad_status_code(self, test_get):
+        response_list = get_ticket_json("url","user","pwd")
+        self.assertTrue(response_list == False)
 
 class CLIDisplayTestCase(unittest.TestCase):
     # tests for the CLI Display module

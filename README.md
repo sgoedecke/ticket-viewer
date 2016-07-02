@@ -4,7 +4,7 @@ Ticket Viewer accesses tickets from a Zendesk account and displays them in a rea
 
 ## Installation
 
-**Dependencies**: Python 2.7, Python Requests library, Python Tabulate library
+**Dependencies**: Python 2.7, Python Requests library, Python Tabulate library, Python Mock library (for testing)
 
 **Installing Python 2.7**
 
@@ -12,9 +12,11 @@ Recent versions of Mac OS X should already have Python 2.7 installed. If you're 
 
 For installing Python 2.7 on Windows, see [this guide](ADD_LINK).
 
-**Installing Python Requests library and Tabulate library**
+**Installing Python Requests, Tabulate and Mock libraries**
 
-Installing Python's Requests library is as easy as running `pip install requests` from the terminal. Likewise, installing Tabulate just involves running `pip install tabulate`.
+Installing Python's [Requests](https://pypi.python.org/pypi/requests/) library is as easy as running `pip install requests` from the terminal. Likewise, installing [Tabulate](https://pypi.python.org/pypi/tabulate) just involves running `pip install tabulate`.
+
+Python's [Mock](https://pypi.python.org/pypi/mock) library is only used for testing purposes - if you just want to run the viewer and ignore tests.py, you don't need to install it. If you do want to install it, run `pip install mock` from the terminal.
 
 If for some reason you don't have pip installed, [this link](http://docs.python-guide.org/en/latest/starting/install/osx/#install-osx) will talk you through it.
 
