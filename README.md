@@ -10,7 +10,7 @@ Ticket Viewer accesses tickets from a Zendesk account and displays them in a rea
 
 Recent versions of Mac OS X should already have Python 2.7 installed. If you're not sure what version of Python you have installed, follow [this guide](http://docs.python-guide.org/en/latest/starting/install/osx/).
 
-For installing Python 2.7 on Windows, see [this guide](ADD_LINK).
+For installing Python 2.7 on Windows, see [this guide](http://docs.python-guide.org/en/latest/starting/install/win/).
 
 **Installing Python Requests, Tabulate and Mock libraries**
 
