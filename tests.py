@@ -3,7 +3,7 @@ import mock
 from tickethandler import *
 from clidisplay import *
 
-## Tests for the tickethandler.py module below:
+## Classes and methods needed to test without actually making a HTTP request
 
 class DummyResponseObject:
     # this mimicks a Response object from the Requests library, for easier testing
@@ -30,6 +30,8 @@ def test_requests_get_bad_status_code(url, auth):
     dummy_response = DummyResponseObject(dummy_json)
     dummy_response.status_code = 100
     return dummy_response
+
+## Tests for the tickethandler.py module below:
 
 class TicketObjectTestCase(unittest.TestCase):
     # tests for the Ticket object
@@ -70,7 +72,6 @@ class TicketHandlerTestCase(unittest.TestCase):
 ## Tests for the clidisplay.py module below:
 
 class CLIDisplayTestCase(unittest.TestCase):
-    # tests for the methods in clidisplay
     def test_reformat_json_date(self):
         raw_date = '2012-05-29T18:29:10Z'
         formatted_date = reformat_json_date(raw_date)

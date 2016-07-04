@@ -20,13 +20,13 @@ def display_ticket_list(ticket_list, start, end):
     print "Viewing tickets from " + str(start) + " to " + str(end) + " (out of " + str(len(ticket_list)) + " total):"
     tabulated_list = []
     for ticket in ticket_list[start:end]: #look at first 25 tickets
-        tabulated_list.append([ticket.id,ticket.subject,ticket.submitter_id])
-    print tabulate(tabulated_list, headers=["ID","Subject","Submitter ID"],tablefmt="simple") + "\n"
+        tabulated_list.append([ticket.id,ticket.subject,ticket.submitter_id, reformat_json_date(ticket.created_at)])
+    print tabulate(tabulated_list, headers=["ID","Subject","Submitter ID", "Submitted at"],tablefmt="simple") + "\n"
 
 def display_individual_ticket(ticket):
     # display details for a single ticket
     formatted_date = reformat_json_date(ticket.created_at)
-    print "Viewing ticket with ID: " + str(ticket.id)
+    print "\nViewing ticket with ID: " + str(ticket.id)
     print "Subject: " + str(ticket.subject) #using str() here returns "None" if the attribute is missing, rather than throwing an error
     print "Submitter ID: " + str(ticket.submitter_id)
     print "Priority: " + str(ticket.priority)
