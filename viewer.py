@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from tickethandler import *
 from clidisplay import *
 
