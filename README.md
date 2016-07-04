@@ -18,7 +18,7 @@ Installing Python's [Requests](https://pypi.python.org/pypi/requests/) library i
 
 Python's [Mock](https://pypi.python.org/pypi/mock) library is only used for testing purposes - if you just want to run the viewer and ignore tests.py, you don't need to install it. If you do want to install it, run `pip install mock==1.0.1` from the terminal. The `==1.0.1` is needed to handle some [dependency issues](https://github.com/pypa/pip/issues/3165) that crop up in OS X El Capitan. If you're in a virtual environment, you shouldn't need it. However, since it won't do any harm, the safe bet is to use it.
 
-If you don't have pip installed, [this link](http://docs.python-guide.org/en/latest/starting/install/osx/#install-osx) will talk you through it. If you don't want to use pip for some reason, the links above have alternate ways of installing the libraries.
+If you don't have pip installed, [this link](http://docs.python-guide.org/en/latest/starting/install/osx/#install-osx) will talk you through it. As the link says, you will need to install [homebrew](brew.sh) first. If you don't want to use pip for some reason, the links above have alternate ways of installing the libraries.
 
 ## Usage
 
