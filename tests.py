@@ -31,7 +31,7 @@ def test_requests_get_bad_status_code(url, auth):
     dummy_response.status_code = 100
     return dummy_response
 
-## Tests for the tickethandler.py module below:
+## Tests for the tickethandler.py module:
 
 class TicketObjectTestCase(unittest.TestCase):
     # tests for the Ticket object
@@ -69,7 +69,7 @@ class TicketHandlerTestCase(unittest.TestCase):
         response_list = get_ticket_json("url","user","pwd")
         self.assertTrue(response_list == False)
 
-## Tests for the clidisplay.py module below:
+## Tests for the clidisplay.py module:
 
 class CLIDisplayTestCase(unittest.TestCase):
     def test_reformat_json_date(self):

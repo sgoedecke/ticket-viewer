@@ -3,7 +3,7 @@ import requests
 import time
 
 class Ticket:
-    # ticket objects read their attributes straight from the .json
+    # ticket objects read their attributes straight from the JSON-format data
     def __init__(self, dict):
         for key,value in dict.items():
             if isinstance(value, (list, tuple)): # check if the ticket property is a list (e.g. a list of tags)
@@ -33,15 +33,14 @@ def get_ticket_json(url, user,pwd):
                     print "Getting next page of tickets..."
     except requests.exceptions.ConnectionError:
         return False
-    # check that the request is valid
     return response_list
 
 
 def decode_ticket_json(ticket_json):
-    # strip a list of dictionaries from the json-string so I can feed them into Ticket objects
+    # strip the ticket info from the JSON-format data so I can feed it into Ticket objects
     ticket_data = ticket_json.json()
-    tickets = ticket_data['tickets'] # select the tickets
-    return tickets
+    ticket_dict = ticket_data['tickets'] # select the tickets
+    return ticket_dict
 
 def make_ticket_objects(ticket_dict, ticket_list):
     # make a list of Ticket objects from a list of dictionaries
